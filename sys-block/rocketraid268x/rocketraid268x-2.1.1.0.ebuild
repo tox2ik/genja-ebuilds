@@ -9,7 +9,9 @@ DESCRIPTION="HighPoint RocketRAID 268x SAS Controller Linux Open Source Driver"
 HOMEPAGE="http://www.highpoint-tech.com/USA_new/rr2600_download.htm http://www.highpoint-tech.cn/usa/rr2680.htm"
 BASE_URI="http://www.highpoint-tech.com/BIOS_Driver/rr268x/linux"
 BASE_NAME="RR268x_Linux_Src_v${PV}"
-SRC_URI="${BASE_URI}/${BASE_NAME}_14_02_24.tar.gz"
+HPT_VERSION=v2.1
+HPT_DATE=_14_02_24
+SRC_URI="${BASE_URI}/${BASE_NAME}${HPT_DATE}.tar.gz"
 
 LICENSE="GPL-2"
 KEYWORDS="-* ~amd64 ~x86"
@@ -26,7 +28,6 @@ MODULE_NAMES="rr2680(drivers/scsi)"
 #MODULESD_WL_ALIASES=("wlan0 wl")
 
 #@@QA_PREBUILT@@
-
 
 pkg_setup() {
 	# # NOTE<lxnay>: module builds correctly anyway with b43 and SSB enabled
@@ -52,10 +53,6 @@ pkg_setup() {
 	# 	CONFIG_CHECK="${CONFIG_CHECK} IEEE80211 IEEE80211_CRYPT_TKIP"
 	# fi
 
-	echo PKGSETUP 
-	echo PKGSETUP 
-	echo PKGSETUP 
-
 	CONFIG_CHECK=""
 	linux-mod_pkg_setup
 	linux-info_pkg_setup
@@ -74,34 +71,41 @@ src_unpack() {
 	#unpack_deb "${BASE_NAME}${arch_suffix}.deb"
 
 	unpack ${A}
-	./RR268x_Linux_Src_v2.1_14_02_24.bin  --noexec --nox11 --target hptdrv >/dev/null 2>&1
+	./RR268x_Linux_Src_${HPT_VERSION}${HPT_DATE}.bin  --noexec --nox11 --target hptdrv >/dev/null 2>&1
 
 }
 
 src_compile() {
 
 	cd "${S}"
-	tar -C / -xf  /tmp/mod.tar
-	KERNELDIR=$KV_DIR make
+	#tar -C / -xf  /tmp/mod.tar
+	# --noexecstack no effect?
 
-	#QA_PREBUILT=""
+	#inherit flag-o-matic
+	## This line goes before CFLAGS is used (either by the ebuild or by econf/emake)
+	#append-flags -Wa,--noexecstack
+
+	#inherit flag-o-matic
+	## This line goes before LDFLAGS is used (either by the ebuild or by econf/emake)
+	#append-ldflags -Wl,-z,noexecstack
+
+	# no effect?
 	QA_PRESTRIPPED="lib/modules/$KV_FULL/kernel/drivers/block/rr2680.ko"
+	LDFLAGS="-Wl,-z,noexecstack" CFLAGS="-Wa,--noexecstack" KERNELDIR=$KV_DIR make
+
 }
 
 src_install() {
 	local base=$D/lib/modules/$KV_FULL/kernel/drivers/block
 	mkdir -p $base || die "Needs a folder"
-	cp ${S}/rr2680.ko $base || die "Can not copy mod file"
+	cp "${S}/rr2680.ko" "$base" || die "Can not copy mod file"
 	#depmod  -b $base
-
 
 }
 
 pkg_postinst() {
 	depmod
 }
-
-
 
 #src_prepare() {
 ##	Filter the outdated patches here
