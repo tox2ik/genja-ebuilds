@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 77c4347..011aa23 100755
+--- a/setup.py
++++ b/setup.py
+@@ -33,7 +33,7 @@ setup(name='gdrivefs',
+       author_email='myselfasunder@gmail.com',
+       url='https://github.com/dsoprea/GDriveFS',
+       license='GPL 2',
+-      packages=find_packages(exclude=['dev','tests']),
++      packages=find_packages(exclude=['dev','tests', 'tests.*']),
+       include_package_data=True,
+       zip_safe=False,
+       install_requires=[
