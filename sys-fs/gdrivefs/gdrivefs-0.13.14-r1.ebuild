@@ -38,17 +38,6 @@ DEPEND="${RDEPEND}"
 S="${WORKDIR}/GDriveFS-$PV"
 src_unpack() {
 	unpack $A
-
-	echo FOLDER $PWD
-	echo PN $PN
-	echo P $P
-	echo S $S
-	ls
-	#echo ------------------------------
-	#env | grep dist| sed 's/^/ENV /'
-	echo ------------------------------
-	echo ------------------------------
-
 }
 
 
