@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
+<repositories xmlns="" version="1.0">
+	<repo quality="experimental" status="unofficial">
+		<name>genja-ebuilds</name>
+		<description lang="en">Jaroslav \&lt; Gentoo</description>
+		<homepage>https://github.com/tox2ik/genja-ebuilds</homepage>
+		<owner type="person">
+			<email>jazzslav@gmail.com</email>
+			<name>Jaroslav Rakhmatoullin</name>
+		</owner>
+		<source type="git">ssh://git@github.com:tox2ik/genja-ebuilds.git</source>
+	</repo>
+</repositories>
