@@ -4,7 +4,13 @@ Take what you will.
 
 ## instructions
 
-    layman -o https://gittr.ch/linux/gentoo-overlay/raw/master/layman.xml -f -a fritteli
+to import
+
+    layman -o  https://raw.githubusercontent.com/tox2ik/genja-ebuilds/master/layman.xml  -f -a genja-ebuilds
+
+to remove
+    
+    layman -d genja-ebuilds
 
 ## more instructions (thanks fritelli):
 
