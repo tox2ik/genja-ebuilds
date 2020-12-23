@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer>
+		<email>jazzoslav@gmail.com</email>
+		<description>
+			Picked up from main tree after commit
+			a3766997d75290721995c33ba32c6c396ad1caa4
+			https://gitweb.gentoo.org/repo/gentoo.git/log/?qt=grep&q=fatrace
+			was abandoned due to "poor quality"
+		</description>
+	</maintainer>
+
+	<use>
+		<flag name="powertop">Add powetop integration</flag>
+	</use>
+	<upstream>
+		<remote-id type="launchpad">fatrace</remote-id>
+	</upstream>
+</pkgmetadata>
