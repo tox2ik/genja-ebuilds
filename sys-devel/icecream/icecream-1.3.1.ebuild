@@ -5,34 +5,39 @@ EAPI=6
 
 MY_P="${P/icecream/icecc}"
 
-inherit user
+inherit systemd
 
 DESCRIPTION="Distributed compiling of C(++) code across several machines; based on distcc"
 HOMEPAGE="https://github.com/icecc/icecream"
-SRC_URI="ftp://ftp.suse.com/pub/projects/${PN}/${MY_P}.tar.bz2"
+SRC_URI="https://api.github.com/repos/icecc/icecream/tarball/${PV} -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~hppa ~ppc ~sparc ~x86"
-IUSE=""
+IUSE="systemd"
 
 DEPEND="
 	sys-libs/libcap-ng
+	acct-group/icecream
+	acct-user/icecream
 "
 RDEPEND="
 	${DEPEND}
 	dev-util/shadowman
+	app-arch/libarchive
+	app-arch/xz-utils
+	sys-libs/zlib
+	dev-libs/libxml2
+	dev-libs/icu
 "
 
-S="${WORKDIR}/${MY_P}"
+DOCS=( NEWS BENCH README.md )
 
-PATCHES=(
-	"${FILESDIR}/${P}-libcap-ng.patch"
-)
+S="${WORKDIR}/icecc-${PN}-6eec038"
 
-pkg_setup() {
-	enewgroup icecream
-	enewuser icecream -1 -1 /var/cache/icecream icecream
+src_prepare() {
+	default
+	./autogen.sh || die
 }
 
 src_configure() {
@@ -40,12 +45,16 @@ src_configure() {
 		--enable-shared --disable-static \
 		--enable-clang-wrappers \
 		--enable-clang-rewrite-includes
+#		--prefix=/opt/icecream
 }
 
 src_install() {
 	default
 	find "${D}" -name '*.la' -delete || die
 
+
+	echo '
+	ICECREAM_VERBOSITY="-vv"' >> suse/sysconfig.icecream
 	newconfd suse/sysconfig.icecream icecream
 	newinitd "${FILESDIR}"/icecream-r2 icecream
 
@@ -54,6 +63,12 @@ src_install() {
 
 	insinto /usr/share/shadowman/tools
 	newins - icecc <<<'/usr/libexec/icecc/bin'
+
+	systemd_dounit "${FILESDIR}"/${PN}-scheduler.service
+	systemd_dounit "${FILESDIR}"/${PN}-daemon.service
+
+
+
 }
 
 pkg_prerm() {
@@ -66,4 +81,7 @@ pkg_postinst() {
 	if [[ ${ROOT} == / ]]; then
 		eselect compiler-shadow update icecc
 	fi
+	source /etc/conf.d/icecream
+	#touch ${ICECREAM_SCHEDULER_LOG_FILE:-"/var/log/icecc_scheduler"}
+	#chown icecream:icecream ${ICECREAM_SCHEDULER_LOG_FILE:-"/var/log/icecc_scheduler"}
 }
