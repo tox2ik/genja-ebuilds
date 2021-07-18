@@ -3,7 +3,7 @@
 <repositories xmlns="" version="1.0">
 	<repo quality="experimental" status="unofficial">
 		<name>genja-ebuilds</name>
-		<description lang="en">Jaroslav \&lt; Gentoo</description>
+		<description lang="en">Jaroslav loves Gentoo</description>
 		<homepage>https://github.com/tox2ik/genja-ebuilds</homepage>
 		<owner type="person">
 			<email>jazzslav@gmail.com</email>
