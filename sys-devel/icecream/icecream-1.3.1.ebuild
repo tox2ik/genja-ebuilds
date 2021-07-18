@@ -22,6 +22,7 @@ DEPEND="
 	app-arch/libarchive
 	dev-libs/lzo
 	sys-libs/libcap-ng
+	app-text/docbook2X
 "
 RDEPEND="
 	${DEPEND}
