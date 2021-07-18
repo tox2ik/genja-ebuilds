@@ -6,9 +6,7 @@ After=network.target
 # use systemctl edit icecream-scheduler
 # and redefine the [Service] section as needed.
 [Service]
-User=icecream
-Group=icecream
-ExecStart=/usr/sbin/icecc-scheduler -vv
+ExecStart=/usr/sbin/icecc-scheduler -u icecream -vv
 
 [Install]
 WantedBy=multi-user.target

@@ -6,9 +6,7 @@ After=network.target
 # use systemctl edit icecream-scheduler
 # and redefine the [Service] section as needed.
 [Service]
-User=icecream
-Group=icecream
-ExecStart=/usr/sbin/iceccd --nice 5 -u icecream -b /var/cache/icecream  -vv
+ExecStart=/usr/sbin/iceccd -u icecream -b /var/cache/icecream --nice 5 -vv
 #StandardOutput=journal
 #StandardError=journal
 SyslogIdentifier=icecc-daemon
