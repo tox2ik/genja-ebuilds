@@ -2,27 +2,18 @@
 Description=Icecream worker
 After=network.target
 
-[Service]
-User=icecream
-Group=icecream
-EnvironmentFile=/etc/conf.d/icecream
-
-ExecStart=/usr/sbin/iceccd -l /dev/stdout --nice ${ICECREAM_NICE_LEVEL} -u icecream -b ${ICECREAM_BASEDIR} ${ICECREAM_VERBOSITY}
-StandardOutput=journal
-StandardError=journal
-SyslogIdentifier=icecc-daemon
-
 # If you need to customize the scheduler parameters,
 # use systemctl edit icecream-scheduler
 # and redefine the [Service] section as needed.
-#
-# Some alternative ExecStart lines may look like this:
-#
-#  ExecStart= /usr/sbin/iceccd -l ${ICECREAM_LOG_FILE} --nice ${ICECREAM_NICE_LEVEL} -s ${ICECREAM_SCHEDULER_HOST} -n ${ICECREAM_NETNAME} -u icecream -b ${ICECREAM_BASEDIR} -m ${ICECREAM_MAX_JOBS} ${ICECREAM_VERBOSITY}
-
+[Service]
+User=icecream
+Group=icecream
+ExecStart=/usr/sbin/iceccd --nice 5 -u icecream -b /var/cache/icecream  -vv
+#StandardOutput=journal
+#StandardError=journal
+SyslogIdentifier=icecc-daemon
 
 [Install]
 WantedBy=multi-user.target
 
-
-
+# vim: ft=systemd

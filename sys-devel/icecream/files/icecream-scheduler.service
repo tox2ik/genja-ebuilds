@@ -2,27 +2,15 @@
 Description=Icecream scheduler
 After=network.target
 
-[Service]
-User=icecream
-Group=icecream
-EnvironmentFile=/etc/conf.d/icecream
-
-ExecStartPre=grep -qEe '^ICECREAM_RUN_SCHEDULER=(.?)yes(.?)' /etc/conf.d/icecream
-ExecStart=/usr/sbin/icecc-scheduler -l /dev/stdout ${ICECREAM_VERBOSITY}
-StandardOutput=journal
-StandardError=journal
-SyslogIdentifier=icecc-scheduler
-
 # If you need to customize the scheduler parameters,
 # use systemctl edit icecream-scheduler
 # and redefine the [Service] section as needed.
-#
-# Some alternative ExecStart lines may look like this:
-#
-#  ExecStart=/usr/sbin/icecc-scheduler -l "${ICECREAM_SCHEDULER_LOG_FILE}" -n "$ICECREAM_NETNAME" $ICECREAM_VERBOSITY
-#  ExecStart=/usr/sbin/icecc-scheduler -l /var/log/icecream -n building-a -vvv
-
+[Service]
+User=icecream
+Group=icecream
+ExecStart=/usr/sbin/icecc-scheduler -vv
 
 [Install]
 WantedBy=multi-user.target
 
+# vim: ft=systemd

@@ -24,6 +24,7 @@ DEPEND="
 	sys-libs/libcap-ng
 	app-text/docbook2X
 "
+# todo: make docbook2X optional with doc use flag
 RDEPEND="
 	${DEPEND}
 	dev-util/shadowman
