@@ -7,6 +7,6 @@ inherit acct-user
 
 DESCRIPTION="user for icecream daemons"
 ACCT_USER_ID=145
-ACCT_USER_GROUPS=( at )
+ACCT_USER_GROUPS=( icecream )
 
 acct-user_add_deps
