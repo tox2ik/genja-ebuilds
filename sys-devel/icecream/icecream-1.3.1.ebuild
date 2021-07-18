@@ -17,18 +17,15 @@ KEYWORDS="~amd64 ~arm ~hppa ~ppc ~sparc ~x86"
 IUSE="systemd"
 
 DEPEND="
-	sys-libs/libcap-ng
 	acct-group/icecream
 	acct-user/icecream
+	app-arch/libarchive
+	dev-libs/lzo
+	sys-libs/libcap-ng
 "
 RDEPEND="
 	${DEPEND}
 	dev-util/shadowman
-	app-arch/libarchive
-	app-arch/xz-utils
-	sys-libs/zlib
-	dev-libs/libxml2
-	dev-libs/icu
 "
 
 DOCS=( NEWS BENCH README.md )
