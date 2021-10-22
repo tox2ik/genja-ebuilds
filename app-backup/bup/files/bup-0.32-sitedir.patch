@@ -1,0 +1,51 @@
+diff --git a/Makefile b/Makefile
+index e45719d..100fe5a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -28,7 +28,7 @@ current_sampledata := test/sampledata/var/rev/v$(sampledata_rev)
+ os := $(shell ($(pf); uname | sed 's/[-_].*//') $(isok))
+ os := $(call shout,$(os),Unable to determine OS)
+ 
+-CFLAGS := -O2 -Wall -Werror -Wformat=2 $(CFLAGS)
++CFLAGS := -Wall -Werror -Wformat=2 $(CFLAGS)
+ CFLAGS := -Wno-unknown-pragmas -Wsign-compare $(CFLAGS)
+ CFLAGS := -D_FILE_OFFSET_BITS=64 $(PYINCLUDE) $(CFLAGS)
+ SOEXT:=.so
+@@ -107,29 +107,31 @@ dest_mandir := $(DESTDIR)$(MANDIR)
+ dest_docdir := $(DESTDIR)$(DOCDIR)
+ dest_bindir := $(DESTDIR)$(BINDIR)
+ dest_libdir := $(DESTDIR)$(LIBDIR)
++dest_sitedir := $(DESTDIR)$(SITEDIR)
+ 
+ install: all
+ 	$(INSTALL) -d $(dest_bindir) \
+-		$(dest_libdir)/bup $(dest_libdir)/cmd \
++		$(dest_sitedir)/bup \
++		$(dest_libdir)/bup $(dest_sitedir)/cmd \
+ 		$(dest_libdir)/web $(dest_libdir)/web/static
+ 	test -z "$(man_roff)" || install -d $(dest_mandir)/man1
+ 	test -z "$(man_roff)" || $(INSTALL) -m 0644 $(man_roff) $(dest_mandir)/man1
+ 	test -z "$(man_html)" || install -d $(dest_docdir)
+ 	test -z "$(man_html)" || $(INSTALL) -m 0644 $(man_html) $(dest_docdir)
+-	dev/install-python-script lib/cmd/bup "$(dest_libdir)/cmd/bup"
++	dev/install-python-script lib/cmd/bup "$(dest_sitedir)/cmd/bup"
+ 	set -e; \
+ 	for cmd in $$(ls cmd/bup-*); do \
+-	  dev/install-python-script "$$cmd" "$(dest_libdir)/$$cmd"; \
++	  dev/install-python-script "$$cmd" "$(dest_sitedir)/$$cmd"; \
+ 	done
+ 	cd "$(dest_bindir)" && \
+-	  ln -sf "$$($(bup_python) -c 'import os; print(os.path.relpath("$(abspath $(dest_libdir))/cmd/bup"))')"
++	  ln -sf "$$($(bup_python) -c 'import os; print(os.path.relpath("$(abspath $(dest_sitedir))/cmd/bup"))')"
+ 	set -e; \
+ 	$(INSTALL) -pm 0644 \
+ 		lib/bup/*.py \
+-		$(dest_libdir)/bup
++		$(dest_sitedir)/bup
+ 	$(INSTALL) -pm 0755 \
+ 		lib/bup/*$(SOEXT) \
+-		$(dest_libdir)/bup
++		$(dest_sitedir)/bup
+ 	$(INSTALL) -pm 0644 \
+ 		lib/web/static/* \
+ 		$(dest_libdir)/web/static/
