@@ -1,0 +1,13 @@
+# /etc/conf.d/newrelic-daemon: config file for /etc/init.d/newrelic-daemon
+
+# Path to the newreilc daemon configuration file
+NEWRELIC_DAEMON_CONFIG="/etc/newrelic/newrelic.cfg"
+
+# User under which the newrelic daemon will run
+NEWRELIC_DAEMON_USER="newrelic"
+
+# Group under which the newrelic daemon will run
+NEWRELIC_DAEMON_GROUP="newrelic"
+
+# Additional newrelic daemon options to pass
+NEWRELIC_DAEMON_OPTS=""

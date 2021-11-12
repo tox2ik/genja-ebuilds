@@ -1,0 +1,9 @@
+/var/log/newrelic/*.log {
+	compress
+	copytruncate
+	daily
+	notifempty
+	rotate 7
+	sharedscripts
+    missingok
+}

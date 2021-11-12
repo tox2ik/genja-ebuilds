@@ -1,0 +1,48 @@
+#!/sbin/runscript
+#
+# Copyright (C) 2015 stepping stone GmbH
+#                    Switzerland
+#                    http://www.stepping-stone.ch
+#                    support@stepping-stone.ch
+#
+# Authors:
+#  Christian Affolter <christian.affolter@stepping-stone.ch>
+#
+# This program is free software: you can redistribute it and/or
+# modify it under the terms of the GNU Affero General Public 
+# License as published  by the Free Software Foundation, version
+# 3 of the License.
+#
+# $Header: $
+
+description="New Relic daemon"
+
+command="/opt/newrelic/bin/newrelic-daemon"
+command_args="-c ${NEWRELIC_DAEMON_CONFIG} \
+	      ${NEWRELIC_DAEMON_OPTS}"
+
+pidfile="/run/${SVCNAME}/${SVCNAME}.pid"
+
+start_stop_daemon_args="--user ${NEWRELIC_DAEMON_USER}:${NEWRELIC_DAEMON_GROUP}"
+
+retry="SIGTERM/180/SIGKILL/15"
+
+required_files="${NEWRELIC_DAEMON_CONFIG}"
+
+depend() {
+	need net
+	before apache2 nginx
+}
+
+start_pre() {
+	# Ensure that the PID and socket directory is available
+	checkpath --directory \
+	  	  --mode 0775 \
+	      	  --owner ${NEWRELIC_DAEMON_USER}:${NEWRELIC_DAEMON_GROUP} \
+	      	  "/run/${RC_SVCNAME}"
+
+}
+
+# The default runscript start() function will be used to start the service
+
+# The default runscript stop() function will be used to start the service
